@@ -236,3 +236,38 @@ $ helm repo add nvidia https://nvidia.github.io/gpu-operator \
 $ helm install --wait --generate-name \
 nvidia/gpu-operator
 ```
+
+Seems to be error about DNS...
+
+```
+$ kubectl logs nvidia-driver-daemonset-mw4r6 -n gpu-operator-resources
+Creating directory NVIDIA-Linux-x86_64-470.57.02
+Verifying archive integrity... OK
+Uncompressing NVIDIA Accelerated Graphics Driver for Linux-x86_64 470.57.02.......................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................
+
+WARNING: Unable to determine the default X library path. The path /tmp/null/lib will be used, but this path was not detected in the ldconfig(8) cache, and no directory exists at this path, so it is likely that libraries installed there will not be found by the loader.
+
+
+WARNING: You specified the '--no-kernel-module' command line option, nvidia-installer will not install a kernel module as part of this driver installation, and it will not remove existing NVIDIA kernel modules not part of an earlier NVIDIA driver installation.  Please ensure that an NVIDIA kernel module matching this driver version is installed separately.
+
+
+========== NVIDIA Software Installer ==========
+
+Starting installation of NVIDIA driver version 470.57.02 for Linux kernel version 5.11.0-27-generic
+
+Stopping NVIDIA persistence daemon...
+Unloading NVIDIA driver kernel modules...
+Unmounting NVIDIA driver rootfs...
+Checking NVIDIA driver packages...
+Updating the package cache...
+W: Failed to fetch http://archive.ubuntu.com/ubuntu/dists/focal/InRelease  Temporary failure resolving 'archive.ubuntu.com'
+W: Failed to fetch http://archive.ubuntu.com/ubuntu/dists/focal-updates/InRelease  Temporary failure resolving 'archive.ubuntu.com'
+W: Failed to fetch http://archive.ubuntu.com/ubuntu/dists/focal-security/InRelease  Temporary failure resolving 'archive.ubuntu.com'
+W: Failed to fetch https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/InRelease  Temporary failure resolving 'developer.download.nvidia.com'
+W: Some index files failed to download. They have been ignored, or old ones used instead.
+Resolving Linux kernel version...
+Could not resolve Linux kernel version
+Stopping NVIDIA persistence daemon...
+Unloading NVIDIA driver kernel modules...
+Unmounting NVIDIA driver rootfs...
+```

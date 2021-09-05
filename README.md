@@ -81,7 +81,7 @@ $ sudo systemctl restart docker
 # 1-5. Install kubernetes (Necessary Two CPU cores for k8s)
 ```
 $ sudo apt-get update \
-&& sudo apt-get install -y apt-transport-https curl
+&& sudo apt-get install -y apt-transport-https
 
 $ curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
 $ cat <<EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list

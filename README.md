@@ -2,6 +2,9 @@
 
 *** But now I am in the failure of nvidia-driver-daemonset. ***
 -------------------------------------------------------------------
+gpu-operator-resources   nvidia-driver-daemonset-wvwmp                                     0/1     CrashLoopBackOff   4 (75s ago)   9m48s
+-------------------------------------------------------------------
+
 
 -One master node (No GPU machine)
 

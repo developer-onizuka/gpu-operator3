@@ -152,13 +152,17 @@ $ sudo kubeadm join 192.168.122.147:6443 --token xxxxxxxxxxxxxxxxxxxxxxx \
 	--discovery-token-ca-cert-hash sha256:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
 
-If you forget it or the token was expired, you can create it again as below:
+If you forget it, you can confirm it again as below:
 ```
-$ kubeadm token create
+$ kubeadm token list
 $ openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | \
 >    openssl dgst -sha256 -hex | sed 's/^.* //'
 ```
-	
+
+If the token was expired, then you can create it again.
+```
+$ kubeadm token create
+```
 	
 # 3. Master node
 # 3-1. Comfirm the nodes in the cluster at Master node

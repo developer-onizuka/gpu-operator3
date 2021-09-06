@@ -233,34 +233,35 @@ $ helm install --wait --generate-name \
 nvidia/gpu-operator
 
 $ kubectl get pods -A
-NAMESPACE                NAME                                                              READY   STATUS                     RESTARTS        AGE
-default                  gpu-operator-1630893766-node-feature-discovery-master-6966dzb56   1/1     Running                    1 (3m35s ago)   105m
-default                  gpu-operator-1630893766-node-feature-discovery-worker-2zn8c       1/1     Running                    0               105m
-default                  gpu-operator-1630893766-node-feature-discovery-worker-q95kh       1/1     Running                    1 (3m35s ago)   105m
-default                  gpu-operator-1630893766-node-feature-discovery-worker-znkmt       1/1     Running                    0               105m
-default                  gpu-operator-74dcf6544d-4w2qv                                     1/1     Running                    1 (3m35s ago)   105m
-gpu-operator-resources   gpu-feature-discovery-q9fnr                                       1/1     Running                    0               105m
-gpu-operator-resources   nvidia-container-toolkit-daemonset-jtp8k                          1/1     Running                    0               105m
-gpu-operator-resources   nvidia-cuda-validator-whv9g                                       0/1     Completed                  0               97m
-gpu-operator-resources   nvidia-dcgm-exporter-vpdk4                                        1/1     Running                    4 (94m ago)     105m
-gpu-operator-resources   nvidia-dcgm-vsxhz                                                 1/1     Running                    0               105m
-gpu-operator-resources   nvidia-device-plugin-daemonset-2rm9x                              1/1     Running                    0               105m
-gpu-operator-resources   nvidia-device-plugin-validator-db5fk                              0/1     UnexpectedAdmissionError   0               10m
-gpu-operator-resources   nvidia-driver-daemonset-cnp65                                     1/1     Running                    0               105m
-gpu-operator-resources   nvidia-operator-validator-8kqph                                   0/1     Init:3/4                   16 (15m ago)    105m
-kube-system              calico-kube-controllers-58497c65d5-mfcf9                          1/1     Running                    1 (3m35s ago)   127m
-kube-system              calico-node-5hmjw                                                 0/1     Running                    3 (3m35s ago)   27h
-kube-system              calico-node-t4kjg                                                 1/1     Running                    4 (25h ago)     27h
-kube-system              calico-node-tbrxm                                                 1/1     Running                    0               108m
-kube-system              coredns-78fcd69978-mxtvc                                          1/1     Running                    1 (3m30s ago)   127m
-kube-system              coredns-78fcd69978-vwmrb                                          1/1     Running                    1 (3m30s ago)   127m
-kube-system              etcd-master                                                       1/1     Running                    3 (3m35s ago)   27h
-kube-system              kube-apiserver-master                                             1/1     Running                    3 (3m34s ago)   27h
-kube-system              kube-controller-manager-master                                    1/1     Running                    3 (3m35s ago)   27h
-kube-system              kube-proxy-866dg                                                  1/1     Running                    0               108m
-kube-system              kube-proxy-cqw7c                                                  1/1     Running                    3 (25h ago)     27h
-kube-system              kube-proxy-rn5qd                                                  1/1     Running                    3 (3m35s ago)   27h
-kube-system              kube-scheduler-master                                             1/1     Running                    3 (3m35s ago)   27h
+NAMESPACE                NAME                                                              READY   STATUS      RESTARTS        AGE
+default                  gpu-operator-1630893766-node-feature-discovery-master-6966dzb56   1/1     Running     1 (14m ago)     117m
+default                  gpu-operator-1630893766-node-feature-discovery-worker-2zn8c       1/1     Running     3 (5m53s ago)   117m
+default                  gpu-operator-1630893766-node-feature-discovery-worker-q95kh       1/1     Running     1 (14m ago)     117m
+default                  gpu-operator-1630893766-node-feature-discovery-worker-znkmt       1/1     Running     0               117m
+default                  gpu-operator-74dcf6544d-4w2qv                                     1/1     Running     1 (14m ago)     117m
+default                  ubuntu-gpu                                                        1/1     Running     0               2m58s
+gpu-operator-resources   gpu-feature-discovery-q9fnr                                       1/1     Running     1 (17m ago)     116m
+gpu-operator-resources   nvidia-container-toolkit-daemonset-jtp8k                          1/1     Running     1 (16m ago)     116m
+gpu-operator-resources   nvidia-cuda-validator-56qjt                                       0/1     Completed   0               39s
+gpu-operator-resources   nvidia-dcgm-exporter-vpdk4                                        1/1     Running     5 (17m ago)     116m
+gpu-operator-resources   nvidia-dcgm-vsxhz                                                 1/1     Running     1 (17m ago)     116m
+gpu-operator-resources   nvidia-device-plugin-daemonset-2rm9x                              1/1     Running     1 (17m ago)     116m
+gpu-operator-resources   nvidia-device-plugin-validator-x8zrp                              0/1     Completed   0               28s
+gpu-operator-resources   nvidia-driver-daemonset-cnp65                                     1/1     Running     3 (4m54s ago)   116m
+gpu-operator-resources   nvidia-operator-validator-8kqph                                   1/1     Running     0               116m
+kube-system              calico-kube-controllers-58497c65d5-mfcf9                          1/1     Running     1 (14m ago)     138m
+kube-system              calico-node-5hmjw                                                 1/1     Running     3 (14m ago)     27h
+kube-system              calico-node-t4kjg                                                 1/1     Running     4 (25h ago)     27h
+kube-system              calico-node-tbrxm                                                 1/1     Running     1 (17m ago)     119m
+kube-system              coredns-78fcd69978-mxtvc                                          1/1     Running     1 (14m ago)     138m
+kube-system              coredns-78fcd69978-vwmrb                                          1/1     Running     1 (14m ago)     138m
+kube-system              etcd-master                                                       1/1     Running     3 (14m ago)     27h
+kube-system              kube-apiserver-master                                             1/1     Running     3 (14m ago)     27h
+kube-system              kube-controller-manager-master                                    1/1     Running     3 (14m ago)     27h
+kube-system              kube-proxy-866dg                                                  1/1     Running     1 (17m ago)     119m
+kube-system              kube-proxy-cqw7c                                                  1/1     Running     3 (25h ago)     27h
+kube-system              kube-proxy-rn5qd                                                  1/1     Running     3 (14m ago)     27h
+kube-system              kube-scheduler-master                                             1/1     Running     3 (14m ago)     27h
 ```
 
 

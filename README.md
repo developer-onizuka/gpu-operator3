@@ -7,7 +7,7 @@
 |  | CPU | Memory | GPU | GPU Driver |
 | --- | --- | --- | --- | --- |
 | Master | 2 | 8,192 MB | no | --- |
-| Worker1 | 1 | 8,192 MB | 1 | Not Installed |
+| Worker1 | 2 | 8,192 MB | 1 | Not Installed |
 | Worker2 | 2 | 8,192 MB | no | --- |
 
 https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/getting-started.html#chart-customization-options

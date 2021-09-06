@@ -585,6 +585,8 @@ EOF
 sudo systemctl enable docker
 sudo systemctl daemon-reload
 sudo systemctl restart docker
+```
+```
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
 cat <<EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
 deb https://apt.kubernetes.io/ kubernetes-xenial main
@@ -592,13 +594,18 @@ EOF
 sudo apt-get update \
 && sudo apt-get install -y -q kubelet kubectl kubeadm \
 && sudo kubeadm init --pod-network-cidr=192.168.0.0/16
+```
+```
 mkdir -p $HOME/.kube \
 && sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config \
 && sudo chown $(id -u):$(id -g) $HOME/.kube/config
 kubectl taint nodes --all node-role.kubernetes.io/master-
 kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+```
+```
 kubectl edit configmap coredns -n kube-system
-
+```
+```
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 \
 && chmod 700 get_helm.sh \
 && ./get_helm.sh
@@ -606,8 +613,8 @@ helm repo add nvidia https://nvidia.github.io/gpu-operator \
 && helm repo update
 helm install --wait --generate-name \
 nvidia/gpu-operator
-
-
+```
+```
 cat <<EOF | kubectl apply -f -
 apiVersion: v1
 kind: Pod
@@ -626,8 +633,8 @@ spec:
       limits:
          nvidia.com/gpu: 1
 EOF
-
-
+```
+```
 cat <<EOF | kubectl apply -f -
 apiVersion: v1
 kind: Pod

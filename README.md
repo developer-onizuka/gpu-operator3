@@ -360,3 +360,9 @@ Mon Sep  6 01:17:09 2021
 |=============================================================================|
 |  No running processes found                                                 |
 +-----------------------------------------------------------------------------+
+
+	
+# 5. Uninstall GPU operator
+```
+$ helm delete $(helm ls -n default | awk '/gpu-operator/{print $1}') -n default
+```

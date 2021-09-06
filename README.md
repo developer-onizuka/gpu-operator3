@@ -617,6 +617,12 @@ sudo kubeadm join xxx.xxx.xxx.xxx:6443 --token xxxxxxxxxxxxxxxxxxxxxxx \
 kubeadm token create
 ```
 ```
+kubectl label node worker1 node-role.kubernetes.io/node=worker1
+```
+```
+kubectl label node worker2 node-role.kubernetes.io/node=worker2
+```
+```
 mkdir -p $HOME/.kube \
 && sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config \
 && sudo chown $(id -u):$(id -g) $HOME/.kube/config

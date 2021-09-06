@@ -1,4 +1,4 @@
-# GPU Operator with preinstalled driver in Host (the Case #2 below)
+# GPU Operator with preinstalled driver in Host (the Case #3 below)
 
 -One master node (No GPU machine)
 
@@ -15,8 +15,8 @@ https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/getting-started.htm
 | # | Scenario | Nvidia Driver | Nvidia Toolkit |
 | --- | --- | --- | --- |
 | #1 | No GPU operator | In Host | In Host |
-| #2 | GPU Operator (default) | DaemonSet | DaemonSet |
-| #3 | GPU Operator (w/ driver.enabled=false) | In Host | DaemonSet |
+| #2 | GPU Operator (w/ driver.enabled=false) | In Host | DaemonSet |
+| #3 | GPU Operator (default) | DaemonSet | DaemonSet |
 | #4 | GPU Operator (w/ toolkit.enabled=false) | DaemonSet | In Host |
 
 # 1. Master node

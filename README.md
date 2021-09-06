@@ -1,4 +1,4 @@
-# GPU Operator with preinstalled driver in Host (the Case #3 below)
+# GPU Operator without preinstalled driver in Host (the Case #3 below)
 
 -One master node (No GPU machine)
 
@@ -269,7 +269,7 @@ kube-system              kube-scheduler-master                                  
 
 *** But now I was in the failure of nvidia-driver-daemonset. ***
 -------------------------------------------------------------------
-gpu-operator-resources   nvidia-driver-daemonset-wvwmp                                     0/1     CrashLoopBackOff   4 (75s ago)   9m48s
+gpu-operator-resources   nvidia-driver-daemonset-mw4r6                                     0/1     CrashLoopBackOff   4 (75s ago)   9m48s
 -------------------------------------------------------------------
 	
 	
@@ -277,6 +277,7 @@ Seems to be error about DNS...
 
 ```
 $ kubectl logs nvidia-driver-daemonset-mw4r6 -n gpu-operator-resources
+
 Creating directory NVIDIA-Linux-x86_64-470.57.02
 Verifying archive integrity... OK
 Uncompressing NVIDIA Accelerated Graphics Driver for Linux-x86_64 470.57.02.......................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................

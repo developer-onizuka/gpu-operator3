@@ -559,3 +559,84 @@ $ helm delete $(helm ls -n default | awk '/gpu-operator/{print $1}') -n default
 $ kubectl delete node worker1
 $ kubectl delete node worker2
 ```
+
+# Appendix
+You can use the script below for as copy and paste.
+```
+curl https://get.docker.com | sh \
+&& sudo systemctl --now enable docker
+sudo systemctl enable docker
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+cat <<EOF | sudo tee /etc/docker/daemon.json
+{
+  "exec-opts": ["native.cgroupdriver=systemd"],
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "100m"
+  },
+  "storage-driver": "overlay2"
+}
+EOF
+sudo systemctl enable docker
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+cat <<EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
+deb https://apt.kubernetes.io/ kubernetes-xenial main
+EOF
+sudo apt-get update \
+&& sudo apt-get install -y -q kubelet kubectl kubeadm \
+&& sudo kubeadm init --pod-network-cidr=192.168.0.0/16
+mkdir -p $HOME/.kube \
+&& sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config \
+&& sudo chown $(id -u):$(id -g) $HOME/.kube/config
+kubectl taint nodes --all node-role.kubernetes.io/master-
+kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+kubectl edit configmap coredns -n kube-system
+
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 \
+&& chmod 700 get_helm.sh \
+&& ./get_helm.sh
+helm repo add nvidia https://nvidia.github.io/gpu-operator \
+&& helm repo update
+helm install --wait --generate-name \
+nvidia/gpu-operator
+
+
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ubuntu-gpu
+  labels:
+    name: ubuntu-gpu
+spec:
+  containers:
+  - name: ubuntu
+    image: ubuntu
+    command:
+    - sleep
+    - "3600"
+    resources:
+      limits:
+         nvidia.com/gpu: 1
+EOF
+
+
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dnsutils
+  labels:
+    name: dnsutils
+spec:
+  containers:
+  - name: dnsutils
+    image: tutum/dnsutils
+    command:
+    - sleep
+    - "3600"
+EOF
+```

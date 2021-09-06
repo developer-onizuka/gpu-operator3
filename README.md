@@ -4,6 +4,8 @@
 
 -Two worker nodes (GPU machine and CPU machine)
 
+https://youtu.be/NrjNibxd1rk
+
 |  | CPU | Memory | GPU | GPU Driver |
 | --- | --- | --- | --- | --- |
 | Master | 2 | 4,096 MB | no | --- |

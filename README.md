@@ -25,7 +25,7 @@ https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/getting-started.htm
 | #3 | GPU Operator (w/ driver.enabled=false) | In Host | DaemonSet |
 | #4 | GPU Operator (w/ toolkit.enabled=false) | DaemonSet | In Host |
 
-# 1. Master node (no GPU machine)
+# 1. Master node
 # 1-1. Disable Swapping and Blacklisting Nouveau driver
 ```
 $ uname -a
@@ -156,7 +156,7 @@ $ sudo kubeadm join 192.168.122.147:6443 --token xxxxxxxxxxxxxxxxxxxxxxx \
 	--discovery-token-ca-cert-hash sha256:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
 
-# 3. Master node (no GPU machine)
+# 3. Master node
 # 3-1. Comfirm the nodes in the cluster at Master node
 ```
 $ kubectl get nodes
@@ -221,7 +221,7 @@ calico/cni                  v3.20.0   4945b742b8e6   5 weeks ago    146MB
 k8s.gcr.io/pause            3.5       ed210e3e4a5b   5 months ago   683kB
 ```
 
-# 4. Master node (no GPU machine)
+# 4. Master node
 # 4-1. Install Helm chart at Master node
 ```
 $ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 \
@@ -268,4 +268,41 @@ Could not resolve Linux kernel version
 Stopping NVIDIA persistence daemon...
 Unloading NVIDIA driver kernel modules...
 Unmounting NVIDIA driver rootfs...
+```
+
+# 5. Master node
+Edit coredns config files, so that Pod can resolve the hostname from inside.	
+Use the 8.8.8.8 instead of /etc/resolv.conf. See below:
+	
+```
+$ kubectl edit configmap coredns -n kube-system
+
+# Please edit the object below. Lines beginning with a '#' will be ignored,
+# and an empty file will abort the edit. If an error occurs while saving this file will be
+# reopened with the relevant failures.
+#
+apiVersion: v1
+data:
+  Corefile: |
+    .:53 {
+        errors
+        health {
+           lameduck 5s
+        }
+        ready
+        kubernetes cluster.local in-addr.arpa ip6.arpa {
+           pods insecure
+           fallthrough in-addr.arpa ip6.arpa
+           ttl 30
+        }
+        prometheus :9153
+        #forward . /etc/resolv.conf {
+        forward . 8.8.8.8 {
+           max_concurrent 1000
+        }
+        cache 30
+        loop
+        reload
+        loadbalance
+    }
 ```

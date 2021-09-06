@@ -1,8 +1,8 @@
 # GPU Operator without preinstalled driver in Host (the Case #3 below)
 
--One master node (No GPU machine)
+- One master node (No GPU machine)
 
--Two worker nodes (GPU machine and CPU machine)
+- Two worker nodes (GPU machine and CPU machine)
 
 https://youtu.be/NrjNibxd1rk
 
@@ -603,7 +603,6 @@ sudo apt-get update \
 ```
 sudo kubeadm init --pod-network-cidr=192.168.0.0/16
 ```
-or
 ```
 kubeadm token list
 openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | \

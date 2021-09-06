@@ -342,7 +342,7 @@ data:
         loadbalance
     }
 ```
-# 4-2. Run yaml file without GPU at Master node
+# 4-3. Run yaml file without GPU at Master node
 ```
 $ cat <<EOF | kubectl apply -f - 
 apiVersion: v1

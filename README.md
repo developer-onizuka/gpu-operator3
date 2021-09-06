@@ -1,11 +1,5 @@
 # GPU Operator with preinstalled driver in Host (the Case #2 below)
 
-*** But now I am in the failure of nvidia-driver-daemonset. ***
--------------------------------------------------------------------
-gpu-operator-resources   nvidia-driver-daemonset-wvwmp                                     0/1     CrashLoopBackOff   4 (75s ago)   9m48s
--------------------------------------------------------------------
-
-
 -One master node (No GPU machine)
 
 -Two worker nodes (GPU machine and CPU machine)
@@ -235,6 +229,13 @@ $ helm install --wait --generate-name \
 nvidia/gpu-operator
 ```
 
+
+*** But now I am in the failure of nvidia-driver-daemonset. ***
+-------------------------------------------------------------------
+gpu-operator-resources   nvidia-driver-daemonset-wvwmp                                     0/1     CrashLoopBackOff   4 (75s ago)   9m48s
+-------------------------------------------------------------------
+	
+	
 Seems to be error about DNS...
 
 ```

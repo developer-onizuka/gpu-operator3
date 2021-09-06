@@ -4,11 +4,11 @@
 
 -Two worker nodes (GPU machine and CPU machine)
 
-|  | CPU | Memory | GPU |
-| --- | --- | --- | --- |
-| Master | 2 | 8,192 MB | no |
-| Worker1 | 1 | 8,192 MB | 1 |
-| Worker2 | 2 | 8,192 MB | no |
+|  | CPU | Memory | GPU | GPU Driver |
+| --- | --- | --- | --- | --- |
+| Master | 2 | 8,192 MB | no | --- |
+| Worker1 | 1 | 8,192 MB | 1 | Not Installed |
+| Worker2 | 2 | 8,192 MB | no | --- |
 
 https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/getting-started.html#chart-customization-options
 
@@ -307,3 +307,56 @@ data:
         loadbalance
     }
 ```
+
+# 4-3. Run yaml file with GPU at Master node
+```
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ubuntu-gpu
+  labels:
+    name: ubuntu-gpu
+spec:
+  containers:
+  - name: ubuntu
+    image: ubuntu
+    command:
+    - sleep
+    - "3600"
+    resources:
+      limits:
+         nvidia.com/gpu: 1
+EOF
+
+$ kubectl get pods
+NAME                                                              READY   STATUS    RESTARTS   AGE
+dnsutils                                                          1/1     Running   0          18m
+gpu-operator-1630890138-node-feature-discovery-master-5c66g659s   1/1     Running   0          16m
+gpu-operator-1630890138-node-feature-discovery-worker-8zqx4       1/1     Running   0          16m
+gpu-operator-74dcf6544d-5mjq9                                     1/1     Running   0          16m
+ubuntu-gpu                                                        1/1     Running   0          9m13s
+
+$ kubectl exec -it ubuntu-gpu -- /bin/bash
+root@ubuntu-gpu:/# 
+root@ubuntu-gpu:/# nvidia-smi 
+Mon Sep  6 01:17:09 2021       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 470.57.02    Driver Version: 470.57.02    CUDA Version: 11.4     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  Quadro P1000        On   | 00000000:04:00.0 Off |                  N/A |
+| 34%   39C    P8    N/A /  N/A |      1MiB /  4040MiB |      0%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+                                                                               
++-----------------------------------------------------------------------------+
+| Processes:                                                                  |
+|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+|        ID   ID                                                   Usage      |
+|=============================================================================|
+|  No running processes found                                                 |
++-----------------------------------------------------------------------------+

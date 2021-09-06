@@ -269,7 +269,7 @@ kube-system              kube-scheduler-master                                  
 
 *** But now I was in the failure of nvidia-driver-daemonset. ***
 -------------------------------------------------------------------
-gpu-operator-resources   nvidia-driver-daemonset-mw4r6                                     0/1     CrashLoopBackOff
+*** gpu-operator-resources   nvidia-driver-daemonset-mw4r6                                     0/1     CrashLoopBackOff ***
 -------------------------------------------------------------------
 	
 	

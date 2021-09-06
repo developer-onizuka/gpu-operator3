@@ -156,7 +156,7 @@ If you forget it, you can confirm it again as below:
 ```
 $ kubeadm token list
 $ openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | \
->    openssl dgst -sha256 -hex | sed 's/^.* //'
+openssl dgst -sha256 -hex | sed 's/^.* //'
 ```
 
 If the token was expired (no result of "kubeadm token list"), then you can create it again.

@@ -314,7 +314,7 @@ data:
 
 # 4-3. Run yaml file with GPU at Master node
 ```
-cat <<EOF | kubectl apply -f -
+$ cat <<EOF | kubectl apply -f -
 apiVersion: v1
 kind: Pod
 metadata:

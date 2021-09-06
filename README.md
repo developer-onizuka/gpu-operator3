@@ -309,7 +309,7 @@ Unloading NVIDIA driver kernel modules...
 Unmounting NVIDIA driver rootfs...
 ```
 
-# 4-2. Change the coredns config file, if you can not resolve the hostname by DNS default.
+# 4-2. Change coredns's config file, if you can not resolve the hostname by default DNS's setting.
 Edit coredns config files, so that Pod can resolve the hostname from inside.	
 Use the 8.8.8.8 instead of /etc/resolv.conf. See below:
 	

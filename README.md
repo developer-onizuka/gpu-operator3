@@ -159,7 +159,7 @@ $ openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outf
 >    openssl dgst -sha256 -hex | sed 's/^.* //'
 ```
 
-If the token was expired, then you can create it again.
+If the token was expired (no result of "kubeadm token list"), then you can create it again.
 ```
 $ kubeadm token create
 ```

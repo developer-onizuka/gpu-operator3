@@ -598,9 +598,22 @@ cat <<EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
 deb https://apt.kubernetes.io/ kubernetes-xenial main
 EOF
 sudo apt-get update \
-&& sudo apt-get install -y -q kubelet kubectl kubeadm \
-&& sudo kubeadm init --pod-network-cidr=192.168.0.0/16
+&& sudo apt-get install -y -q kubelet kubectl kubeadm
 ```
+```
+sudo kubeadm init --pod-network-cidr=192.168.0.0/16
+```
+or
+```
+```
+kubeadm token list
+openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | \
+openssl dgst -sha256 -hex | sed 's/^.* //'```
+```
+```
+sudo kubeadm join xxx.xxx.xxx.xxx:6443 --token xxxxxxxxxxxxxxxxxxxxxxx \
+	--discovery-token-ca-cert-hash sha256:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+```	
 ```
 mkdir -p $HOME/.kube \
 && sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config \

@@ -604,6 +604,7 @@ sudo apt-get update \
 sudo kubeadm init --pod-network-cidr=192.168.0.0/16
 ```
 ```
+kubectl describe node master|grep InternalIP | awk {'print $2'}
 kubeadm token list
 openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | \
 openssl dgst -sha256 -hex | sed 's/^.* //'

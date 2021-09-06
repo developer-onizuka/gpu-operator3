@@ -606,12 +606,15 @@ sudo kubeadm init --pod-network-cidr=192.168.0.0/16
 ```
 kubeadm token list
 openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | \
-openssl dgst -sha256 -hex | sed 's/^.* //'```
+openssl dgst -sha256 -hex | sed 's/^.* //'
 ```
 ```
 sudo kubeadm join xxx.xxx.xxx.xxx:6443 --token xxxxxxxxxxxxxxxxxxxxxxx \
 	--discovery-token-ca-cert-hash sha256:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-```	
+```
+```
+kubeadm token create
+```
 ```
 mkdir -p $HOME/.kube \
 && sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config \

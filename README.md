@@ -519,3 +519,9 @@ Mon Sep  6 01:17:09 2021
 ```
 $ helm delete $(helm ls -n default | awk '/gpu-operator/{print $1}') -n default
 ```
+
+# 6. Delete worker nodes
+```
+$ kubectl delete node worker1
+$ kubectl delete node worker2
+```

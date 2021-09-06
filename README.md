@@ -567,6 +567,12 @@ $ kubectl delete node worker2
 # Appendix
 You can use the script below for as copy and paste.
 ```
+sudo swapoff -a
+sudo systemctl mask "swapfile.swap"
+sudo apt-get update
+sudo apt-get install -y curl
+```
+```
 curl https://get.docker.com | sh \
 && sudo systemctl --now enable docker
 sudo systemctl enable docker

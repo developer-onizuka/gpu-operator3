@@ -192,10 +192,6 @@ worker1   Ready    node                   11m     v1.22.1
 worker2   Ready    node                   6m20s   v1.22.1
 ```
 
-```
-$ kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
-```
-
 Images in Master node
 ```
 master:~/Desktop$ sudo docker images

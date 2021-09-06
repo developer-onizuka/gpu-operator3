@@ -311,8 +311,92 @@ data:
         loadbalance
     }
 ```
+# 4-2. Run yaml file without GPU at Master node
+```
+$ cat <<EOF | kubectl apply -f - 
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ubuntu-cpu 
+  labels:
+    name: ubuntu-cpu
+spec:
+  containers:
+  - name: ubuntu
+    image: ubuntu
+    command:
+    - sleep
+    - "3600"
+EOF
 
-# 4-3. Run yaml file with GPU at Master node
+$ kubectl get pods
+NAME                                                              READY   STATUS    RESTARTS      AGE
+gpu-operator-1630893766-node-feature-discovery-master-6966dzb56   1/1     Running   0             96m
+gpu-operator-1630893766-node-feature-discovery-worker-2zn8c       1/1     Running   0             96m
+gpu-operator-1630893766-node-feature-discovery-worker-q95kh       1/1     Running   0             96m
+gpu-operator-1630893766-node-feature-discovery-worker-znkmt       1/1     Running   0             96m
+gpu-operator-74dcf6544d-4w2qv                                     1/1     Running   0             96m
+ubuntu-cpu                                                        1/1     Running   0             52s
+
+$ kubectl describe pod ubuntu-cpu
+Name:         ubuntu-cpu
+Namespace:    default
+Priority:     0
+Node:         worker2/192.168.122.147
+Start Time:   Mon, 06 Sep 2021 12:38:04 +0900
+Labels:       name=ubuntu-cpu
+Annotations:  cni.projectcalico.org/containerID: 2e54fc35eac76d98f8af3397cc69026369b2806d3206d71a0d842a5bb8ab01e0
+              cni.projectcalico.org/podIP: 192.168.189.82/32
+              cni.projectcalico.org/podIPs: 192.168.189.82/32
+Status:       Running
+IP:           192.168.189.82
+IPs:
+  IP:  192.168.189.82
+Containers:
+  ubuntu:
+    Container ID:  docker://5237177b76d777bdf90eadd24db09e570ec0bf299270ac55f6d0a8989393b7ba
+    Image:         ubuntu
+    Image ID:      docker-pullable://ubuntu@sha256:9d6a8699fb5c9c39cf08a0871bd6219f0400981c570894cd8cbea30d3424a31f
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      sleep
+      3600
+    State:          Running
+      Started:      Mon, 06 Sep 2021 12:38:08 +0900
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-hcmtg (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             True 
+  ContainersReady   True 
+  PodScheduled      True 
+Volumes:
+  kube-api-access-hcmtg:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age   From               Message
+  ----    ------     ----  ----               -------
+  Normal  Scheduled  20s   default-scheduler  Successfully assigned default/ubuntu-cpu to worker2
+  Normal  Pulling    20s   kubelet            Pulling image "ubuntu"
+  Normal  Pulled     18s   kubelet            Successfully pulled image "ubuntu" in 2.589907428s
+  Normal  Created    17s   kubelet            Created container ubuntu
+  Normal  Started    17s   kubelet            Started container ubuntu
+```
+
+# 4-4. Run yaml file with GPU at Master node
 ```
 $ cat <<EOF | kubectl apply -f -
 apiVersion: v1
@@ -340,6 +424,71 @@ gpu-operator-1630890138-node-feature-discovery-master-5c66g659s   1/1     Runnin
 gpu-operator-1630890138-node-feature-discovery-worker-8zqx4       1/1     Running   0          16m
 gpu-operator-74dcf6544d-5mjq9                                     1/1     Running   0          16m
 ubuntu-gpu                                                        1/1     Running   0          9m13s
+
+$ kubectl describe pod ubuntu-gpu
+Name:         ubuntu-gpu
+Namespace:    default
+Priority:     0
+Node:         worker1/192.168.122.78
+Start Time:   Mon, 06 Sep 2021 11:11:32 +0900
+Labels:       name=ubuntu-gpu
+Annotations:  cni.projectcalico.org/containerID: 8da61cb6a887cb0e81ff1e2cd832145c1889ae2e8c1edc9828a65b777ee8e444
+              cni.projectcalico.org/podIP: 192.168.235.138/32
+              cni.projectcalico.org/podIPs: 192.168.235.138/32
+Status:       Running
+IP:           192.168.235.138
+IPs:
+  IP:  192.168.235.138
+Containers:
+  ubuntu:
+    Container ID:  docker://7adfe29688a20c201b0ed6539f071f00bbd8d2089fc9014c430fce3a95ec324c
+    Image:         ubuntu
+    Image ID:      docker-pullable://ubuntu@sha256:9d6a8699fb5c9c39cf08a0871bd6219f0400981c570894cd8cbea30d3424a31f
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      sleep
+      3600
+    State:          Running
+      Started:      Mon, 06 Sep 2021 12:14:51 +0900
+    Last State:     Terminated
+      Reason:       Completed
+      Exit Code:    0
+      Started:      Mon, 06 Sep 2021 11:14:48 +0900
+      Finished:     Mon, 06 Sep 2021 12:14:48 +0900
+    Ready:          True
+    Restart Count:  1
+    Limits:
+      nvidia.com/gpu:  1
+    Requests:
+      nvidia.com/gpu:  1
+    Environment:       <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-f94gk (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             True 
+  ContainersReady   True 
+  PodScheduled      True 
+Volumes:
+  kube-api-access-f94gk:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason   Age                From     Message
+  ----    ------   ----               ----     -------
+  Normal  Pulling  21m (x2 over 84m)  kubelet  Pulling image "ubuntu"
+  Normal  Created  21m (x2 over 81m)  kubelet  Created container ubuntu
+  Normal  Started  21m (x2 over 81m)  kubelet  Started container ubuntu
+  Normal  Pulled   21m                kubelet  Successfully pulled image "ubuntu" in 2.642611405s
 
 $ kubectl exec -it ubuntu-gpu -- /bin/bash
 root@ubuntu-gpu:/# 

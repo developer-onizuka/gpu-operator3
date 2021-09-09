@@ -693,9 +693,9 @@ cat <<EOF | kubectl apply -f -
 apiVersion: v1
 kind: Pod
 metadata:
-  name: ubuntu-gpu
+  name: ubuntu-gpu-ofed
   labels:
-    name: ubuntu-gpu
+    name: ubuntu-gpu-ofed
 spec:
   containers:
   - name: ubuntu

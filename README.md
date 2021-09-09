@@ -678,3 +678,37 @@ spec:
     - "3600"
 EOF
 ```
+```
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0/aio/deploy/recommended.yaml
+kubectl proxy
+```
+```
+helm repo add mellanox https://mellanox.github.io/network-operator
+helm repo update
+helm install -n network-operator --create-namespace --wait network-operator mellanox/network-operator
+kubectl -n network-operator get pods
+```
+```
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ubuntu-gpu
+  labels:
+    name: ubuntu-gpu
+spec:
+  containers:
+  - name: ubuntu
+    image: ubuntu
+    command:
+    - sleep
+    - "3600"
+    resources:
+      limits:
+         nvidia.com/gpu: 1
+  ofedDriver:
+    image: mofed
+    repository: mellanox
+    version: 5.3-1.0.0.1
+EOF
+```

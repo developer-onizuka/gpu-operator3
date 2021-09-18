@@ -678,18 +678,3 @@ spec:
     - "3600"
 EOF
 ```
-```
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0/aio/deploy/recommended.yaml
-kubectl proxy
-
-kubectl -n kube-system get secret | grep deploy
-deployment-controller-token-7l4xr                kubernetes.io/service-account-token   3      4d6h
-
-kubectl -n kube-system describe secret deployment-controller-token-7l4xr
-```
-```
-helm repo add mellanox https://mellanox.github.io/network-operator
-helm repo update
-helm install -n network-operator --create-namespace --wait network-operator mellanox/network-operator
-kubectl -n network-operator get pods
-```

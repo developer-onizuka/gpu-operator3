@@ -552,6 +552,21 @@ Mon Sep  6 01:17:09 2021
 |  No running processes found                                                 |
 +-----------------------------------------------------------------------------+
 ```
+# 4-5. Face-Recognizer
+Before this step, make the container and store it in private registry. See the URL below:
+- https://github.com/developer-onizuka/nvidia-docker_VirtualMachine3
+- https://github.com/developer-onizuka/private_dockerRegistry
+```
+$ curl 192.168.122.1:5000/v2/_catalog
+{"repositories":["face_recognizer","ubuntu"]}
+
+$ curl http://192.168.122.1:5000/v2/face_recognizer/tags/list
+{"name":"face_recognizer","tags":["1.0.1"]}
+
+$ git clone https://github.com/developer-onizuka/gpu-operator3.git
+$ cd gpu-operator3
+$ kubectl apply -f face_recognizer.yaml
+```	
 	
 # 5. Uninstall GPU operator
 ```

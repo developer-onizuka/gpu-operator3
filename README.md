@@ -1,5 +1,6 @@
 # GPU Operator without preinstalled driver in Host (the Case #3 below)
 
+You might use the Vagrantfile attached. It will deploy the following Virtual Machines.
 - One master node (No GPU machine)
 
 - Two worker nodes (GPU machine and CPU machine)
@@ -8,9 +9,9 @@ https://youtu.be/NrjNibxd1rk
 
 |  | CPU | Memory | GPU | GPU Driver |
 | --- | --- | --- | --- | --- |
-| Master | 2 | 4,096 MB | no | --- |
+| Master | 2 | 8,192 MB | no | --- |
 | Worker1 | 2 | 16,384 MB | 1 | Not Installed |
-| Worker2 | 2 | 4,096 MB | no | --- |
+| Worker2 | 2 | 8,192 MB | no | --- |
 
 https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/getting-started.html#chart-customization-options
 

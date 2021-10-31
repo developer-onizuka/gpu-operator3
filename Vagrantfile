@@ -29,9 +29,9 @@ EOF
       sudo ip a add 192.168.200.100/24 dev eth2
       sudo ip link set eth2 up
       sudo swapoff -a
-      sudo systemctl mask "swap.img.swap"
-      sudo systemctl mask "dev-vda2.swap"
-      sudo sed -ie "12d" /etc/fstab
+      #sudo systemctl mask "swap.img.swap"
+      #sudo systemctl mask "dev-vda2.swap"
+      sudo sed -ie "/swap/d" /etc/fstab
       sudo cat <<EOF > /etc/modprobe.d/blacklist-nouveau.conf
 blacklist nouveau
 options nouveau modeset=0
@@ -68,7 +68,7 @@ deb https://apt.kubernetes.io/ kubernetes-xenial main
 EOF
       sudo apt-get update
       sudo apt-get install -y -q kubelet kubectl kubeadm
-      sudo kubeadm init --pod-network-cidr=192.168.0.0/16 --apiserver-advertise-address=192.168.200.100
+      sudo kubeadm init --pod-network-cidr=192.168.0.0/16 --apiserver-advertise-address=192.168.33.100
       mkdir -p $HOME/.kube
       sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
       sudo chown $(id -u):$(id -g) $HOME/.kube/config
@@ -76,12 +76,14 @@ EOF
       sudo kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
       token=$(sudo kubeadm token list |tail -n 1 |awk '{print $1}')
       hashkey=$(openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | openssl dgst -sha256 -hex | sed 's/^.* //')
-      ssh vagrant@192.168.33.101 sudo kubeadm join 192.168.200.100:6443 --token $token --discovery-token-ca-cert-hash sha256:$hashkey
-      ssh vagrant@192.168.33.102 sudo kubeadm join 192.168.200.100:6443 --token $token --discovery-token-ca-cert-hash sha256:$hashkey
+      ssh vagrant@192.168.33.101 sudo kubeadm join 192.168.33.100:6443 --token $token --discovery-token-ca-cert-hash sha256:$hashkey
+      ssh vagrant@192.168.33.102 sudo kubeadm join 192.168.33.100:6443 --token $token --discovery-token-ca-cert-hash sha256:$hashkey
       sudo kubectl label node worker1 node-role.kubernetes.io/node=worker1
       sudo kubectl label node worker2 node-role.kubernetes.io/node=worker2
-      sudo sed -ie "12d" /etc/fstab
+      sudo sed -ie "/swap/d" /etc/fstab
       sudo cat /etc/fstab
+      sudo cp -p /etc/docker/daemon.json /tmp/daemon.json
+      sudo tac /tmp/daemon.json |sed -e '2s/$/,/' |sed -e '2i \ \ "insecure-registries":["192.168.33.1:5000"]'|tac > /etc/docker/daemon.json
     SHELL
   end
 #---------- worker1 ----------
@@ -110,9 +112,9 @@ EOF
       sudo ip a add 192.168.200.101/24 dev eth2
       sudo ip link set eth2 up
       sudo swapoff -a
-      sudo systemctl mask "swap.img.swap"
-      sudo systemctl mask "dev-vda2.swap"
-      sudo sed -ie "12d" /etc/fstab
+      #sudo systemctl mask "swap.img.swap"
+      #sudo systemctl mask "dev-vda2.swap"
+      sudo sed -ie "/swap/d" /etc/fstab
       sudo cat <<EOF > /etc/modprobe.d/blacklist-nouveau.conf
 blacklist nouveau
 options nouveau modeset=0
@@ -140,12 +142,14 @@ deb https://apt.kubernetes.io/ kubernetes-xenial main
 EOF
       sudo apt-get update
       sudo apt-get install -y -q kubelet kubectl kubeadm
-      cat <<EOF > /etc/rc.local
-#!/bin/sh
-sudo iptables -t nat -A POSTROUTING -s 192.168.0.0/16 -j SNAT --to 192.168.200.101
-EOF
+#      cat <<EOF > /etc/rc.local
+##!/bin/sh
+#sudo iptables -t nat -A POSTROUTING -s 192.168.0.0/16 -j SNAT --to 192.168.33.101
+#EOF
       chmod 775 /etc/rc.local
-      sudo sed -ie "12d" /etc/fstab
+      sudo sed -ie "/swap/d" /etc/fstab
+      sudo cp -p /etc/docker/daemon.json /tmp/daemon.json
+      sudo tac /tmp/daemon.json |sed -e '2s/$/,/' |sed -e '2i \ \ "insecure-registries":["192.168.33.1:5000"]'|tac > /etc/docker/daemon.json
     SHELL
   end
 #---------- worker2 ----------
@@ -173,9 +177,9 @@ EOF
       sudo ip a add 192.168.200.102/24 dev eth2
       sudo ip link set eth2 up
       sudo swapoff -a
-      sudo systemctl mask "swap.img.swap"
-      sudo systemctl mask "dev-vda2.swap"
-      sudo sed -ie "12d" /etc/fstab
+      #sudo systemctl mask "swap.img.swap"
+      #sudo systemctl mask "dev-vda2.swap"
+      sudo sed -ie "/swap/d" /etc/fstab
       sudo cat <<EOF > /etc/modprobe.d/blacklist-nouveau.conf
 blacklist nouveau
 options nouveau modeset=0
@@ -203,12 +207,14 @@ deb https://apt.kubernetes.io/ kubernetes-xenial main
 EOF
       sudo apt-get update
       sudo apt-get install -y -q kubelet kubectl kubeadm
-      cat <<EOF > /etc/rc.local
-#!/bin/sh
-sudo iptables -t nat -A POSTROUTING -s 192.168.0.0/16 -j SNAT --to 192.168.200.102
-EOF
+#      cat <<EOF > /etc/rc.local
+##!/bin/sh
+#sudo iptables -t nat -A POSTROUTING -s 192.168.0.0/16 -j SNAT --to 192.168.33.102
+#EOF
       chmod 775 /etc/rc.local
-      sudo sed -ie "12d" /etc/fstab
+      sudo sed -ie "/swap/d" /etc/fstab
+      sudo cp -p /etc/docker/daemon.json /tmp/daemon.json
+      sudo tac /tmp/daemon.json |sed -e '2s/$/,/' |sed -e '2i \ \ "insecure-registries":["192.168.33.1:5000"]'|tac > /etc/docker/daemon.json
     SHELL
   end
 #--------------------

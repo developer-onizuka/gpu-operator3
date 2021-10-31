@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
       - name: facerecognizer-test
-        image: 192.168.122.1:5000/face_recognizer:1.0.1
+        image: 192.168.33.1:5000/face_recognizer:1.0.1
         ports:
         - containerPort: 5000
         resources:

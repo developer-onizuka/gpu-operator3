@@ -166,7 +166,7 @@ $ kubeadm token create
 ```
 	
 # 3. Master node
-# 3-1. Comfirm the nodes in the cluster at Master node
+# 3-1. Confirm the nodes in the cluster at Master node
 ```
 $ kubectl get nodes
 NAME      STATUS     ROLES                  AGE     VERSION
